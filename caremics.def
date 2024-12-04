@@ -1,0 +1,26 @@
+# Donne une erreur de compatibilité (mais pourquoi)
+Bootstrap: docker
+From: nvcr.io/nvidia/pytorch:22.11-py3
+
+%files
+    
+
+%runscript
+exec  /usr/local/bin/"$@"
+
+%environment
+    export PATH="/usr/local/bin:$PATH"
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+    export DEBIAN_FRONTEND=noninteractive
+    export PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:$LD_LIBRARY_PATH
+
+%post
+   export DEBIAN_FRONTEND=noninteractive
+   apt-get update -y
+
+   apt install -y build-essential qtcreator 
+
+
+   pip install --upgrade pip
+   pip install "caremics[example]"
